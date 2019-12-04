@@ -8,7 +8,7 @@ with open(path.join(this_directory, 'README.rst'), encoding='utf-8') as f:
 setup(
   name='as3935',
   packages=['as3935'],
-  version='0.1.1',
+  version='0.1.3',
   license='gpl-3.0',
   description="A Python3 module to control the lightning detector AS3935 chip",
   long_description=long_description,
@@ -16,7 +16,7 @@ setup(
   author = 'Eloi Codina',
   author_email = 'eloi.codina@gmail.com',
   url = 'https://github.com/ecodina/python_as3935',
-  download_url='https://github.com/ecodina/python_as3935/archive/v0.1.1-beta.tar.gz',
+  download_url='https://github.com/ecodina/python_as3935/archive/v0.1.3-beta.tar.gz',
   keywords = ['python', 'raspberry', 'gpio', 'lightning', 'sensor'],
   install_requires=[
           'pigpio',

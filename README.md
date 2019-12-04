@@ -8,9 +8,9 @@ This Python module let's you control the AS3935 lightning detector. The board us
  3. It allows you to perform every action described in the [datasheet](http://www.embeddedadventures.com/datasheets/AS3935_Datasheet_EN_v2.pdf).
  
 To install it from Pypi:
- ```
+```
 $ pip install as3935
- ```
+```
 
 
 # 1. Connection of the device
@@ -60,14 +60,14 @@ This module has been tested on Python 3.7. It might work on other versions as we
 It is very simple to use. Just import it and create a new object with the configuration you need.
 
 ```
-from as3935 import AS3935
+import as3935
 import pigpio
     
 irq_pin_number = 4    # BCM number (code after GPIO)
 bus = 1               # On newer Raspberrys is 1
 address = 0x03        # If using MOD-1016 this is the address
 
-sensor = AS3935.AS3935(irq_pin_number, bus, address)
+sensor = as3935.AS3935(irq_pin_number, bus, address)
 
 # We need to calibrate the sensor first. Use the tuning cap provided
 # or calculate it using sensor.calculate_tuning_cap(*args)
@@ -78,22 +78,22 @@ sensor.set_indoors(True)
 # Every time you sense a pulse on IRQ it means there is an
 # interruption request. You can read it like this:
 def irq_callback(gpio, level, tick):
-	interruption = sensor.get_interrupt()
-	if interruption == AS3935.INT_NH:
-		print("Noise floor too high")
-	elif interruption == AS3935.INT_D:
-		print("Disturbance detected. Mask it?")
-	elif interruption == AS3935.INT_L:
-		print("Lightning detected!")
-		distance = sensor.get_distance()
+    interruption = sensor.get_interrupt()
+    if interruption == as3935.INT_NH:
+        print("Noise floor too high")
+    elif interruption == as3935.INT_D:
+        print("Disturbance detected. Mask it?")
+    elif interruption == as3935.INT_L:
+        print("Lightning detected!")
+        distance = sensor.get_distance()
 
 try:
-	cb = sensor.pi.callback(irq_pin_number, pigpio.RISING_EDGE, irq_callback)
-	while True:
-		pass
+    cb = sensor.pi.callback(irq_pin_number, pigpio.RISING_EDGE, irq_callback)
+    while True:
+        pass
 finally:
-	cb.cancel()
-	sensor.pi.stop()   
+    cb.cancel()
+    sensor.pi.stop()
 ```  
 
 This above is a very simple example. Check the full documentation to learn all the methods you can call.
