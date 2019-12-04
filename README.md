@@ -15,13 +15,15 @@
 
 # 1. Connection of the device
 If using a [40-pin GPIO](https://www.raspberrypi.org/documentation/usage/gpio/) Raspberry Pi, the device should be connected as follows:
-|Pin on AS3935| Pin name on RPi | Pin number (BCM) |
-|--|--|--|
-| Vcc | 3.3V | --  |
-| IRQ | Any available GPIO|  e.g. 4|
-|SCL  | Clock | 3 |
+
+| Pin on AS3935 | Pin name on RPi | Pin number (BCM) |
+|----|----|----|
+| Vcc | 3.3V | Any |
+| IRQ | Any available GPIO|  e.g. 4 |
+| SCL | Clock | 3 |
 | SDA | Data | 2 |
-|GND | Ground | -- |
+| GND | Ground | Any |
+
 
 
 # 2. Requisites
@@ -58,7 +60,7 @@ This module has been tested on Python 3.7. It might work on other versions as we
 It is very simple to use. Just import it and create a new object with the configuration you need.
 
 ```
-    from python-as3935 import AS3935
+    from as3935 import AS3935
     import pigpio
     
     irq_pin_number = 4    # BCM number (code after GPIO)
@@ -103,7 +105,7 @@ There are other Python modules that allow you to use the AS3935 sensor. However,
 It is licensed under the GNU General Public License v3.0 (please read LICENSE.txt)
 
 ```
-    pythonAS3935
+    python_AS3935
     Copyright (C) 2019  Eloi Codina Torras
 
     This program is free software: you can redistribute it and/or modify
@@ -131,9 +133,9 @@ It is licensed under the GNU General Public License v3.0 (please read LICENSE.tx
 ## 5.2 Class AS3935
 It provides an object to control the AS3935.
 
-*:param* **irq**: (int) GPIO pin number the IRQ is connected at (BCM number)
-*:param* **bus**: (int, optional) the bus the AS3935 is connected at. Default = 1
-*:param* **address**: (int, optional) the address of the AS3935. Default = 0x03
+  - **irq**: (int) GPIO pin number the IRQ is connected at (BCM number)
+  - **bus**: (int, optional) the bus the AS3935 is connected at. Default = 1
+  -  **address**: (int, optional) the address of the AS3935. Default = 0x03
 
 You can access the following properties from this object:
 
