@@ -18,9 +18,9 @@ import pigpio
 import time
 
 
-INT_NH = 0x0001
-INT_D = 0x0100
-INT_L = 0x1000
+INT_NH = 0b0001
+INT_D = 0b0100
+INT_L = 0b1000
 
 
 class AS3935:
