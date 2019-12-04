@@ -1,15 +1,15 @@
 # Welcome to python_as3935!
 
- This Python module let's you control the AS3935 lightning detector. The board used is the MOD-1016 from [EmbeddedAdventures](http://www.embeddedadventures.com/as3935_lightning_sensor_module_mod-1016.html).
+This Python module let's you control the AS3935 lightning detector. The board used is the MOD-1016 from [EmbeddedAdventures](http://www.embeddedadventures.com/as3935_lightning_sensor_module_mod-1016.html).
  
  
  1. It works with [Pigpio](http://abyz.me.uk/rpi/pigpio/) instead of the common [RPi.GPIO](https://pypi.org/project/RPi.GPIO/), in order to be able to use it without being root.
  2. The communication with the device is done via I2C serial protocol.
  3. It allows you to perform every action described in the [datasheet](http://www.embeddedadventures.com/datasheets/AS3935_Datasheet_EN_v2.pdf).
  
- To install it from Pypi:
+To install it from Pypi:
  ```
-	$ pip instal as3935
+$ pip install as3935
  ```
 
 
@@ -31,22 +31,22 @@ If using a [40-pin GPIO](https://www.raspberrypi.org/documentation/usage/gpio/) 
 
 Install the Pigpio daemon, either from source or via:
 ```
-    $ sudo apt install pigpio
+$ sudo apt install pigpio
 ```
  Configure *Remote GPIO* using (if on Raspbian):
 
 ```
-    $ sudo raspi-config
+$ sudo raspi-config
 ```
 Enable the daemon and start it now:
 ```
-    $ sudo systemctl enable pigpiod
-    $ sudo systemctl start pigpiod
+$ sudo systemctl enable pigpiod
+$ sudo systemctl start pigpiod
 ```
 Install the [Python interface](https://pypi.org/project/pigpio/):
 
 ```
-    $ pip install pigpio
+$ pip install pigpio
 ```
 
 For further information, visit [Pigpio's](http://abyz.me.uk/rpi/pigpio/pigpiod.html) webpage.
@@ -60,40 +60,40 @@ This module has been tested on Python 3.7. It might work on other versions as we
 It is very simple to use. Just import it and create a new object with the configuration you need.
 
 ```
-    from as3935 import AS3935
-    import pigpio
+from as3935 import AS3935
+import pigpio
     
-    irq_pin_number = 4    # BCM number (code after GPIO)
-    bus = 1               # On newer Raspberrys is 1
-    address = 0x03        # If using MOD-1016 this is the address
-    
-    sensor = AS3935.AS3935(irq_pin_number, bus, address)
-    
-    # We need to calibrate the sensor first. Use the tuning cap provided
-    # or calculate it using sensor.calculate_tuning_cap(*args)
-    sensor.full_calibration(12)
+irq_pin_number = 4    # BCM number (code after GPIO)
+bus = 1               # On newer Raspberrys is 1
+address = 0x03        # If using MOD-1016 this is the address
 
-    sensor.set_indoors(True)
+sensor = AS3935.AS3935(irq_pin_number, bus, address)
 
-    # Every time you sense a pulse on IRQ it means there is an
-    # interruption request. You can read it like this:
-    def irq_callback(gpio, level, tick):
-        interruption = sensor.get_interrupt()
-        if interruption == AS3935.INT_NH:
-            print("Noise floor too high")
-        elif interruption == AS3935.INT_D:
-            print("Disturbance detected. Mask it?")
-        elif interruption == AS3935.INT_L:
-            print("Lightning detected!")
-            distance = sensor.get_distance()
+# We need to calibrate the sensor first. Use the tuning cap provided
+# or calculate it using sensor.calculate_tuning_cap(*args)
+sensor.full_calibration(12)
 
-    try:
-        cb = sensor.pi.callback(irq_pin_number, pigpio.RISING_EDGE, irq_callback)
-		while True:
-		    pass
-    finally:
-        cb.cancel()
-        sensor.pi.stop()   
+sensor.set_indoors(True)
+
+# Every time you sense a pulse on IRQ it means there is an
+# interruption request. You can read it like this:
+def irq_callback(gpio, level, tick):
+	interruption = sensor.get_interrupt()
+	if interruption == AS3935.INT_NH:
+		print("Noise floor too high")
+	elif interruption == AS3935.INT_D:
+		print("Disturbance detected. Mask it?")
+	elif interruption == AS3935.INT_L:
+		print("Lightning detected!")
+		distance = sensor.get_distance()
+
+try:
+	cb = sensor.pi.callback(irq_pin_number, pigpio.RISING_EDGE, irq_callback)
+	while True:
+		pass
+finally:
+	cb.cancel()
+	sensor.pi.stop()   
 ```  
 
 This above is a very simple example. Check the full documentation to learn all the methods you can call.
@@ -128,7 +128,7 @@ It is licensed under the GNU General Public License v3.0 (please read LICENSE.tx
 
  - *INT_NH*: noise level too high
  - *INT_D*: man-made disturbance detected
- - *INT_L: lightning detected
+ - *INT_L*: lightning detected
 
 ## 5.2 Class AS3935
 It provides an object to control the AS3935.
